@@ -59,6 +59,13 @@ class IdentifierToken(Token):
         super(IdentifierToken, self).__init__(**kwargs)
 
 
+CHAR_TOKEN_CLASSES = {
+    '_': UnderscoreToken,
+    ' ': WhitespaceToken,
+    '=': EqualsToken,
+}
+
+
 def tokenize_lowercase(s):
     try:
         lower_char = s[0]
@@ -84,13 +91,6 @@ def tokenize_digit(s):
         digit = None
     if digit is not None:
         return (DigitToken(data=digit), s[1:])
-
-
-CHAR_TOKEN_CLASSES = {
-    '_': UnderscoreToken,
-    ' ': WhitespaceToken,
-    '=': EqualsToken,
-}
 
 
 def tokenize_character(s, character):
@@ -134,27 +134,21 @@ def tokenize_identifier(s):
 
 
 def tokenize_assignment(s):
-    result = tokenize_identifier(s)
-    if not result:
-        return
-    identifier, rest = result
-    result = tokenize_character(rest, character=' ')
-    if not result:
-        return
-    whitespace, rest = result
-    result = tokenize_character(rest, character='=')
-    if not result:
-        return
-    equals, rest = result
-    result = tokenize_character(rest, character=' ')
-    if not result:
-        return
-    whitespace, rest = result
-    result = tokenize_digit(rest)
-    if not result:
-        return
-    expression, rest = result
-    return [identifier, equals, expression]
+    functions = (
+        lambda r: tokenize_identifier(r),
+        lambda r: tokenize_character(r, character=' '),
+        lambda r: tokenize_character(r, character='='),
+        lambda r: tokenize_character(r, character=' '),
+        lambda r: tokenize_digit(r),
+    )
+    tokens = []
+    for f in functions:
+        result = f(s)
+        if not result:
+            return
+        token, s = result
+        tokens.append(token)
+    return [tokens[0], tokens[2], tokens[4]]
 
 
 def tokenize_line(s):
