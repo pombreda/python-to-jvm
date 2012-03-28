@@ -1,1 +1,4 @@
 This is a personal project to experiment with running Python on the Java Virtual Machine (JVM).
+
+It includes basic tokenization and parsing of Python code and Java byte code generation.
+If the Python code doesn't quite resemble PEP-8, it most likely won't parse well! :-)
