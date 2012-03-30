@@ -1,0 +1,139 @@
+CAFEBABE = magic
+0000 = minor version
+0032 = major version (Java 6)
+001D = constant pool size (29)
+
+(1) 0A = CONSTANT_Methodref (10)
+0006 = class_index (6)
+000F = name_and_type_index (15)
+
+(2) 09 = CONSTANT_Fieldref (9)
+0010 = class_index (16)
+0011 = name_and_type_index (17)
+
+(3) 08 = CONSTANT_String (8)
+0012 = class_index (18)
+
+(4) 0A = CONSTANT_Methodref (10)
+0013 = class_index (19)
+0014 = name_and_type_index (20)
+
+(5) 07 = CONSTANT_Class (7)
+0015 = name_index (21)
+
+(6) 07 = CONSTANT_Class (7)
+0016 = name_index (22)
+
+(7) 01 = CONSTANT_Utf8 (1)
+0006 = length (6)
+3C69 6E69 743E <init>
+
+(8) 01 = CONSTANT_Utf8 (1)
+0003 = length (3)
+2829 56 ()V
+
+(9) 01 = CONSTANT_Utf8 (1)
+0004 = length (4)
+436F 6465 Code
+
+(10) 01 = CONSTANT_Utf8 (1)
+000F = length (15)
+4C69 6E65 4E75 6D62 6572 5461 626C 65 LineNumberTable
+
+(11) 01 = CONSTANT_Utf8 (1)
+0004 = length (4)
+6D61 696E main
+
+(12) 01 = CONSTANT_Utf8 (1)
+0016 = length (22)
+285B 4C6A 6176 612F 6C61 6E67 2F53 7472 696E 673B 2956 ([Ljava/lang/String;)V
+
+(13) 01 = CONSTANT_Utf8 (1)
+000A = length (10)
+536F 7572 6365 4669 6C65 SourceFile
+
+(14) 01 = CONSTANT_Utf8 (1)
+000F = length (15)
+4A61 7661 5361 6D70 6C65 2E6A 6176 61 JavaSample.java
+
+(15) 0C = CONSTANT_NameAndType (12)
+0007 = name_index (7)
+0008 = descriptor_index (8)
+
+(16) 07 = CONSTANT_Class (7)
+0017 = name_index (23)
+
+(17) 0C = CONSTANT_NameAndType (12)
+0018 = name_index (24)
+0019 = descriptor_index (25)
+
+(18) 01 = CONSTANT_Utf8 (1)
+0001 = length (1)
+30 0
+
+(19) 07 = CONSTANT_Class (7)
+001A = name_index (26)
+
+(20) 0C = CONSTANT_NameAndType (12)
+001B = name_index (27)
+001C = descriptor_index (28)
+
+(21) 01 = CONSTANT_Utf8 (1)
+000A = length (10)
+4A61 7661 5361 6D70 6C65 JavaSample
+
+(22) 01 = CONSTANT_Utf8 (1)
+0010 = length (16)
+6A61 7661 2F6C 616E 672F 4F62 6A65 6374 java/lang/Object
+
+(23) 01 = CONSTANT_Utf8 (1)
+0010 = length (16)
+6A61 7661 2F6C 616E 672F 5379 7374 757D java/lang/System
+
+(24) 01 = CONSTANT_Utf8 (1)
+0003 = length (3)
+6F75 74 out
+
+(25) 01 = CONSTANT_Utf8 (1)
+0015 = length (21)
+4C6A 6176 612F 696F 2F50 7269 6E74 5374 7265 616D 3B Ljava/io/PrintStream;
+
+(26) 01 = CONSTANT_Utf8 (1)
+0013 = length (19)
+6A61 7661 2F69 6F2F 5072 696E 7453 7472 6561 6D java/io/PrintStream
+
+(27) 01 = CONSTANT_Utf8 (1)
+0007 = length (7)
+7072 696E 746C 6E println
+
+(28) 01 = CONSTANT_Utf8 (1)
+0015 = length (21)
+284C 6A61 7661 2F6C 616E 672F 5374 7269 6E67 3B29 56 (Ljava/lang/String;)V
+
+0021 = access_flags (ACC_PUBLIC, ACC_SUPER)
+
+0005 = this_class (index = 5)
+
+0006 = super_class (index = 6)
+
+0000 = interfaces_count (0)
+
+0000 = interfaces (0)
+
+0002 = fields_count (2)
+
+0001 = field access_flags (PUBLIC)
+0007 = name_index (7)
+0008 = descriptor_index (8)
+0001 = attributes_count (1)
+
+0009 = attribute name_index (9)
+0000 001D = attribute length (29)
+0001 = max_stack (1)
+
+
+
+#0001 0000 0005 2AB7 0001 B100 0000 0100 0A00 0000 0600 0100 0000 01
+
+0009 = attribute name_index (9)
+
