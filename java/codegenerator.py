@@ -1,17 +1,18 @@
 from binascii import unhexlify
 
+def _write_int(i, width=4):
+    return unhexlify(hex(i)[2:].rjust(width, '0'))
+
+
 def _write_indices(*indices):
     result = bytes()
     for index in indices:
-        result += unhexlify(hex(index)[2:].rjust(4, '0'))
+        result += _write_int(index)
     return result
 
 
 def write_CONSTANT_Utf8(s):
-    attribute_type = unhexlify("01")
-    attribute_length = unhexlify(hex(len(s))[2:].rjust(4, '0'))
-    attribute_data = bytes(s.encode())
-    return attribute_type + attribute_length + attribute_data
+    return unhexlify("01") + _write_int(len(s)) + bytes(s.encode())
 
 
 def write_CONSTANT_Class(index):
@@ -31,11 +32,27 @@ def write_CONSTANT_NameAndType(index1, index2):
 
 
 def write_CONSTANT_Methodref(index1, index2):
-    return unhexlify("10") + _write_indices(index1, index2)
+    return unhexlify("0A") + _write_indices(index1, index2)
 
 
-def write_constant_pool(data, f):
-    pass
+def write_constant_pool(data):
+    pool = {}
+    # this_class
+    pool[1] = write_CONSTANT_Class(2)
+    pool[2] = write_CONSTANT_String(3)
+    pool[3] = write_CONSTANT_Utf8("PythonSample")
+    # super_class
+    pool[4] = write_CONSTANT_Class(5)
+    pool[5] = write_CONSTANT_String(6)
+    pool[6] = write_CONSTANT_Utf8("java/lang/Object")
+    # constructor from Object
+    pool[7] = write_CONSTANT_Methodref(4, 8)
+    pool[8] = write_CONSTANT_NameAndType(9, 10)
+    pool[9] = write_CONSTANT_Utf8("<init>")
+    pool[10] = write_CONSTANT_Utf8("()V")
+    # Code attribute
+    pool[11] = write_CONSTANT_Utf8("Code")
+    return pool
 
 
 def write_class_data(data, pool, f):
@@ -45,11 +62,30 @@ def write_class_data(data, pool, f):
 def generate_byte_code(data, filename):
     with open(filename, 'wb') as f:
         f.write(unhexlify("CAFEBABE"))
-        f.write(write_CONSTANT_NameAndType(19, 20))
-        return
         f.write(unhexlify("0000"))
         f.write(unhexlify("0032")) # Java 6
-        pool = write_constant_pool(data, f)
+        pool = write_constant_pool(data)
+        f.write(_write_int(len(pool), 4))
+        for key in sorted(pool.keys()):
+            f.write(pool[key])
+        return
         f.write(unhexlify("0021")) # access_flags
-        write_class_data(data, pool, f)
-        #f.write(write_CONSTANT_Utf8("0"))
+        f.write(unhexlify("0001")) # this_class
+        f.write(unhexlify("0004")) # super_class
+        f.write(unhexlify("0000")) # interfaces_count
+        f.write(unhexlify("0000")) # fields_count
+        f.write(unhexlify("0002")) # method_count
+        # constructor from Object
+        f.write(unhexlify("0001")) # method access_flags
+        f.write(unhexlify("0009")) # method name_index
+        f.write(unhexlify("000A")) # method descriptor_index
+        f.write(unhexlify("0001")) # method attributes_count
+        # Code attribute for constructor
+        f.write(unhexlify("000B")) # attribute_name_index
+        f.write(unhexlify("0000001D")) # attribute_length
+        f.write(unhexlify("0001")) # max_stack
+        f.write(unhexlify("0001")) # max_locals
+        f.write(unhexlify("00000005")) # code_length
+        f.write(unhexlify("2AB70001B1")) # code
+        f.write(unhexlify("0000")) # exception_table_length
+        f.write(unhexlify("0000")) # attribute_count
