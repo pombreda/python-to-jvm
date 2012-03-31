@@ -118,22 +118,54 @@ CAFEBABE = magic
 
 0000 = interfaces_count (0)
 
-0000 = interfaces (0)
+0000 = fields_count (0)
 
-0002 = fields_count (2)
+0002 = methods_count (2)
 
-0001 = field access_flags (PUBLIC)
-0007 = name_index (7)
-0008 = descriptor_index (8)
-0001 = attributes_count (1)
+0001 = method access_flags (ACC_PUBLIC)
+0007 = method name_index (7)
+0008 = method descriptor_index (8)
+0001 = method attributes_count (1)
 
-0009 = attribute name_index (9)
-0000 001D = attribute length (29)
+0009 = attribute_name_index (9)
+0000 001D = attribute_length (29)
 0001 = max_stack (1)
+0001 = max_locals (1)
+0000 0005 = code_length (5)
+2AB7 0001 B1 = code
+0000 = exception_table_length (0)
+0001 = attribute_count (1)
 
+000A = attribute_name_index (10)
+0000 0006 = attribute_length (6)
+0001 = line_number_table_length
+0000 = start_pc
+0001 = line_number
 
+0009 = method access_flags (ACC_PUBLIC, ACC_STATIC)
+000B = method name_index (11)
+000C = method descriptor_index (12)
+0001 = method attribute_count (1)
 
-#0001 0000 0005 2AB7 0001 B100 0000 0100 0A00 0000 0600 0100 0000 01
+0009 = attribute_name_index (9)
+0000 0025 = attribute_length (37)
+0002 = max_stack (2)
+0001 = max_locals (1)
+0000 0009 = code_length (9)
+B200 0212 03B6 0004 B1 = code
+0000 = exception_table_length (0)
+0001 = attribute_count (1)
 
-0009 = attribute name_index (9)
+000A = attribute_name_index (10)
+0000 000A = attribute_length (10)
+0002 = line_number_table_length (2)
+0000 = start_pc
+0004 = line_number
+0008 = start_pc
+0005 = line_number
 
+0001 = attribute_count (1)
+
+000D = attribute_name_index (13)
+0000 0002 = attribute_length (2)
+000E = sourcefile_index (14)
