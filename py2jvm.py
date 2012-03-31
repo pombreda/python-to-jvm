@@ -14,4 +14,4 @@ with open(python_file, 'r') as f:
 
 tokens = tokenize_python(lines)
 data = parse_tokens(tokens)
-generate_byte_code(data, python_file[:-3] + '.class')
+generate_byte_code(data, 'PythonSample.class')
