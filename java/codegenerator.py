@@ -39,19 +39,17 @@ def write_constant_pool(data):
     pool = {}
     # this_class
     pool[1] = write_CONSTANT_Class(2)
-    pool[2] = write_CONSTANT_String(3)
-    pool[3] = write_CONSTANT_Utf8("PythonSample")
+    pool[2] = write_CONSTANT_Utf8("PythonSample")
     # super_class
-    pool[4] = write_CONSTANT_Class(5)
-    pool[5] = write_CONSTANT_String(6)
-    pool[6] = write_CONSTANT_Utf8("java/lang/Object")
+    pool[3] = write_CONSTANT_Class(4)
+    pool[4] = write_CONSTANT_Utf8("java/lang/Object")
     # constructor from Object
-    pool[7] = write_CONSTANT_Methodref(4, 8)
-    pool[8] = write_CONSTANT_NameAndType(9, 10)
-    pool[9] = write_CONSTANT_Utf8("<init>")
-    pool[10] = write_CONSTANT_Utf8("()V")
+    pool[5] = write_CONSTANT_Methodref(3, 6)
+    pool[6] = write_CONSTANT_NameAndType(7, 8)
+    pool[7] = write_CONSTANT_Utf8("<init>")
+    pool[8] = write_CONSTANT_Utf8("()V")
     # Code attribute
-    pool[11] = write_CONSTANT_Utf8("Code")
+    pool[9] = write_CONSTANT_Utf8("Code")
     return pool
 
 
@@ -65,27 +63,28 @@ def generate_byte_code(data, filename):
         f.write(unhexlify("0000"))
         f.write(unhexlify("0032")) # Java 6
         pool = write_constant_pool(data)
-        f.write(_write_int(len(pool), 4))
+        f.write(_write_int(len(pool) + 1))
         for key in sorted(pool.keys()):
             f.write(pool[key])
-        return
         f.write(unhexlify("0021")) # access_flags
         f.write(unhexlify("0001")) # this_class
-        f.write(unhexlify("0004")) # super_class
+        f.write(unhexlify("0003")) # super_class
         f.write(unhexlify("0000")) # interfaces_count
         f.write(unhexlify("0000")) # fields_count
-        f.write(unhexlify("0002")) # method_count
+        f.write(unhexlify("0001")) # method_count
         # constructor from Object
         f.write(unhexlify("0001")) # method access_flags
-        f.write(unhexlify("0009")) # method name_index
-        f.write(unhexlify("000A")) # method descriptor_index
+        f.write(unhexlify("0007")) # method name_index
+        f.write(unhexlify("0008")) # method descriptor_index
         f.write(unhexlify("0001")) # method attributes_count
         # Code attribute for constructor
-        f.write(unhexlify("000B")) # attribute_name_index
-        f.write(unhexlify("0000001D")) # attribute_length
+        f.write(unhexlify("0009")) # attribute_name_index
+        f.write(unhexlify("00000011")) # attribute_length
         f.write(unhexlify("0001")) # max_stack
         f.write(unhexlify("0001")) # max_locals
         f.write(unhexlify("00000005")) # code_length
-        f.write(unhexlify("2AB70001B1")) # code
+        f.write(unhexlify("2AB70005B1")) # code
         f.write(unhexlify("0000")) # exception_table_length
+        f.write(unhexlify("0000")) # attribute_count
+        # attributes
         f.write(unhexlify("0000")) # attribute_count
