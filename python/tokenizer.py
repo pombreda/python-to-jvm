@@ -1,22 +1,26 @@
 from string import ascii_lowercase, ascii_uppercase
 
+TOKEN_DIGIT = 'digit'
+TOKEN_EQUALS = 'equals'
+TOKEN_IDENTIFIER = 'identifier'
+TOKEN_NEWLINE = 'newline'
+
 
 class Token(object):
     def __init__(self, **kwargs):
-        self.token_type = None
         for key, value in kwargs.items():
             setattr(self, key, value)
 
 
 class NewlineToken(Token):
     def __init__(self, **kwargs):
-        self.token_type = 'newline'
+        self.token_type = TOKEN_NEWLINE
         super(NewlineToken, self).__init__(**kwargs)
 
 
 class DigitToken(Token):
     def __init__(self, **kwargs):
-        self.token_type = 'digit'
+        self.token_type = TOKEN_DIGIT
         super(DigitToken, self).__init__(**kwargs)
 
 
@@ -48,14 +52,14 @@ class WhitespaceToken(Token):
 
 class EqualsToken(Token):
     def __init__(self, **kwargs):
-        self.token_type = 'equals'
+        self.token_type = TOKEN_EQUALS
         self.data = '='
         super(EqualsToken, self).__init__(**kwargs)
 
 
 class IdentifierToken(Token):
     def __init__(self, **kwargs):
-        self.token_type = 'identifier'
+        self.token_type = TOKEN_IDENTIFIER
         super(IdentifierToken, self).__init__(**kwargs)
 
 

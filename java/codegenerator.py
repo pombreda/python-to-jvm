@@ -1,5 +1,7 @@
 from binascii import unhexlify
 
+from java.bytecode import generate_bytecode
+
 def _write_int(i, width=4):
     return unhexlify(hex(i)[2:].rjust(width, '0'))
 
@@ -78,7 +80,8 @@ def write_constructor():
         _write_int(0) # attribute_count
     )
 
-def write_main_method():
+def write_main_method(data):
+    code = generate_bytecode(data)
     return (unhexlify("0009") + # ACC_PUBLIC, ACC_STATIC
         _write_int(12) + # method name_index
         _write_int(13) + # method descriptor_index
@@ -95,6 +98,7 @@ def write_main_method():
 
 
 def write_class_file(data, filename):
+    print(">>", data)
     with open(filename, 'wb') as f:
         f.write(unhexlify("CAFEBABE"))
         f.write(unhexlify("0000"))
@@ -110,6 +114,6 @@ def write_class_file(data, filename):
         f.write(unhexlify("0000")) # fields_count
         f.write(unhexlify("0002")) # method_count
         f.write(write_constructor())
-        f.write(write_main_method())
+        f.write(write_main_method(data))
         # attributes
         f.write(unhexlify("0000")) # attribute_count
