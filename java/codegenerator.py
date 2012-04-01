@@ -94,7 +94,7 @@ def write_main_method():
     )
 
 
-def generate_byte_code(data, filename):
+def write_class_file(data, filename):
     with open(filename, 'wb') as f:
         f.write(unhexlify("CAFEBABE"))
         f.write(unhexlify("0000"))

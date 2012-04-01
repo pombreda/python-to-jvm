@@ -2,7 +2,7 @@ import sys
 
 from python.tokenizer import tokenize_python
 from python.parser import parse_tokens
-from java.codegenerator import generate_byte_code
+from java.codegenerator import write_class_file
 
 if len(sys.argv) == 1:
     print("You must specify a filename to convert to Java byte code")
@@ -14,4 +14,4 @@ with open(python_file, 'r') as f:
 
 tokens = tokenize_python(lines)
 data = parse_tokens(tokens)
-generate_byte_code(data, 'PythonSample.class')
+write_class_file(data, 'PythonSample.class')
