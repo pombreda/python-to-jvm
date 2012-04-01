@@ -83,14 +83,14 @@ def write_main_method():
         _write_int(12) + # method name_index
         _write_int(13) + # method descriptor_index
         _write_int(1) + # method attributes_count
-        _write_int(9) # attribute_name_index (Code attribute)
-        _write_int(13, width=8) +
-        _write_int(1) +
-        _write_int(1) +
-        _write_int(1, width=8) +
-        unhexlify("B1") +
-        _write_int(0) +
-        _write_int(0)
+        _write_int(9) + # attribute_name_index (Code attribute)
+        _write_int(13, width=8) + # attribute_length
+        _write_int(1) + # max_stack
+        _write_int(1) + # max_locals
+        _write_int(1, width=8) + # code_length
+        unhexlify("B1") + # code
+        _write_int(0) + # exception_table_length
+        _write_int(0) # attribute_count
     )
 
 
@@ -108,7 +108,7 @@ def generate_byte_code(data, filename):
         f.write(unhexlify("0003")) # super_class
         f.write(unhexlify("0000")) # interfaces_count
         f.write(unhexlify("0000")) # fields_count
-        f.write(unhexlify("0001")) # method_count
+        f.write(unhexlify("0002")) # method_count
         f.write(write_constructor())
         f.write(write_main_method())
         # attributes
