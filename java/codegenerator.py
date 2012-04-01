@@ -50,6 +50,11 @@ def write_constant_pool(data):
     pool[8] = write_CONSTANT_Utf8("()V")
     # Code attribute
     pool[9] = write_CONSTANT_Utf8("Code")
+    # public static void main(String[] args)
+    pool[10] = write_CONSTANT_Methodref(1, 11)
+    pool[11] = write_CONSTANT_NameAndType(12, 13)
+    pool[12] = write_CONSTANT_Utf8("main")
+    pool[13] = write_CONSTANT_Utf8("([Ljava/lang/String;)V")
     return pool
 
 
@@ -73,6 +78,21 @@ def write_constructor():
         _write_int(0) # attribute_count
     )
 
+def write_main_method():
+    return (unhexlify("0009") + # ACC_PUBLIC, ACC_STATIC
+        _write_int(12) + # method name_index
+        _write_int(13) + # method descriptor_index
+        _write_int(1) + # method attributes_count
+        _write_int(9) # attribute_name_index (Code attribute)
+        _write_int(13, width=8) +
+        _write_int(1) +
+        _write_int(1) +
+        _write_int(1, width=8) +
+        unhexlify("B1") +
+        _write_int(0) +
+        _write_int(0)
+    )
+
 
 def generate_byte_code(data, filename):
     with open(filename, 'wb') as f:
@@ -90,5 +110,6 @@ def generate_byte_code(data, filename):
         f.write(unhexlify("0000")) # fields_count
         f.write(unhexlify("0001")) # method_count
         f.write(write_constructor())
+        f.write(write_main_method())
         # attributes
         f.write(unhexlify("0000")) # attribute_count
