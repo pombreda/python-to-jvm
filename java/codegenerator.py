@@ -57,6 +57,23 @@ def write_class_data(data, pool, f):
     pass
 
 
+def write_constructor():
+    # constructor from Object
+    return (unhexlify("0001") + # method access_flags
+        _write_int(7) + # method name_index
+        _write_int(8) + # method descriptor_index
+        _write_int(1) + # method attributes_count
+        _write_int(9) + # attribute_name_index (Code attribute)
+        _write_int(17, width=8) + # attribute_length
+        _write_int(1) + # max_stack
+        _write_int(1) + # max_locals
+        _write_int(5, width=8) + # code_length
+        unhexlify("2AB70005B1") + # code
+        _write_int(0) + # exception_table_length
+        _write_int(0) # attribute_count
+    )
+
+
 def generate_byte_code(data, filename):
     with open(filename, 'wb') as f:
         f.write(unhexlify("CAFEBABE"))
@@ -72,19 +89,6 @@ def generate_byte_code(data, filename):
         f.write(unhexlify("0000")) # interfaces_count
         f.write(unhexlify("0000")) # fields_count
         f.write(unhexlify("0001")) # method_count
-        # constructor from Object
-        f.write(unhexlify("0001")) # method access_flags
-        f.write(unhexlify("0007")) # method name_index
-        f.write(unhexlify("0008")) # method descriptor_index
-        f.write(unhexlify("0001")) # method attributes_count
-        # Code attribute for constructor
-        f.write(unhexlify("0009")) # attribute_name_index
-        f.write(unhexlify("00000011")) # attribute_length
-        f.write(unhexlify("0001")) # max_stack
-        f.write(unhexlify("0001")) # max_locals
-        f.write(unhexlify("00000005")) # code_length
-        f.write(unhexlify("2AB70005B1")) # code
-        f.write(unhexlify("0000")) # exception_table_length
-        f.write(unhexlify("0000")) # attribute_count
+        f.write(write_constructor())
         # attributes
         f.write(unhexlify("0000")) # attribute_count
