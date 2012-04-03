@@ -46,21 +46,18 @@ class UppercaseToken(Token):
 class UnderscoreToken(Token):
     def __init__(self, **kwargs):
         self.token_type = 'underscore'
-        self.data = '_'
         super(UnderscoreToken, self).__init__(**kwargs)
 
 
 class WhitespaceToken(Token):
     def __init__(self, **kwargs):
         self.token_type = 'whitespace'
-        self.data = ' '
         super(WhitespaceToken, self).__init__(**kwargs)
 
 
 class EqualsToken(Token):
     def __init__(self, **kwargs):
         self.token_type = TOKEN_EQUALS
-        self.data = '='
         super(EqualsToken, self).__init__(**kwargs)
 
 
@@ -77,22 +74,34 @@ CHAR_TOKEN_CLASSES = {
 }
 
 
-def tokenize_lowercase(s):
+def tokenize_one_char(s, f_valid, token_class):
     try:
-        lower_char = s[0]
+        c = s[0]
     except IndexError:
-        lower_char = None
-    if lower_char and lower_char in ascii_lowercase:
-        return (LowercaseToken(data=lower_char), s[1:])
+        c = None
+    if f_valid(c):
+        return (token_class(c)(data=c), s[1:])    
+
+
+def tokenize_lowercase(s):
+    return tokenize_one_char(s
+        , lambda c: c and c in ascii_lowercase
+        , lambda c: LowercaseToken
+    )
 
 
 def tokenize_uppercase(s):
-    try:
-        upper_char = s[0]
-    except IndexError:
-        upper_char = None
-    if upper_char and upper_char in ascii_uppercase:
-        return (UppercaseToken(data=upper_char), s[1:])
+    return tokenize_one_char(s
+        , lambda c: c and c in ascii_uppercase
+        , lambda c: UppercaseToken
+    )
+
+
+def tokenize_character(s, character):
+    return tokenize_one_char(s
+        , lambda c: c == character
+        , lambda c: CHAR_TOKEN_CLASSES[c]
+    )
 
 
 def tokenize_digit(s):
@@ -115,15 +124,6 @@ def tokenize_digits(s):
         digits.append(d)
     if digits:
         return digits, rest
-
-
-def tokenize_character(s, character):
-    try:
-        c = s[0]
-    except IndexError:
-        c = None
-    if c == character:
-        return (CHAR_TOKEN_CLASSES[character](), s[1:])
 
 
 def tokenize_letter(s):
