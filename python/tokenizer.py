@@ -97,6 +97,19 @@ def tokenize_digit(s):
         return (DigitToken(data=digit), s[1:])
 
 
+def tokenize_digits(s):
+    digits = []
+    rest = s
+    while rest:
+        result = tokenize_digit(rest)
+        if not result:
+            break
+        d, rest = result
+        digits.append(d)
+    if digits:
+        return digits, rest
+
+
 def tokenize_character(s, character):
     try:
         c = s[0]
@@ -143,7 +156,7 @@ def tokenize_assignment(s):
         lambda r: tokenize_character(r, character=' '),
         lambda r: tokenize_character(r, character='='),
         lambda r: tokenize_character(r, character=' '),
-        lambda r: tokenize_digit(r),
+        lambda r: tokenize_digits(r),
     )
     tokens = []
     for f in functions:
@@ -152,7 +165,9 @@ def tokenize_assignment(s):
             return
         token, s = result
         tokens.append(token)
-    return [tokens[0], tokens[2], tokens[4]]
+    f_result = [tokens[0], tokens[2]]
+    f_result.extend(tokens[4])
+    return f_result
 
 
 def tokenize_line(s):
