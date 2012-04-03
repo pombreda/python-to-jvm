@@ -90,15 +90,14 @@ def write_main_method(data):
         _write_int(13, width=8) + # attribute_length
         _write_int(1) + # max_stack
         _write_int(1) + # max_locals
-        _write_int(1, width=8) + # code_length
-        unhexlify("B1") + # code
+        _write_int(int(len(code) / 2), width=8) + # code_length
+        unhexlify(code) + # code
         _write_int(0) + # exception_table_length
         _write_int(0) # attribute_count
     )
 
 
 def write_class_file(data, filename):
-    print(">>", data)
     with open(filename, 'wb') as f:
         f.write(unhexlify("CAFEBABE"))
         f.write(unhexlify("0000"))

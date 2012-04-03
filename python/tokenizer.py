@@ -4,6 +4,7 @@ TOKEN_DIGIT = 'digit'
 TOKEN_EQUALS = 'equals'
 TOKEN_IDENTIFIER = 'identifier'
 TOKEN_NEWLINE = 'newline'
+TOKEN_NUMBER = 'number'
 
 
 class Token(object):
@@ -22,6 +23,12 @@ class DigitToken(Token):
     def __init__(self, **kwargs):
         self.token_type = TOKEN_DIGIT
         super(DigitToken, self).__init__(**kwargs)
+
+
+class NumberToken(Token):
+    def __init__(self, **kwargs):
+        self.token_type = TOKEN_NUMBER
+        super(NumberToken, self).__init__(**kwargs)
 
 
 class LowercaseToken(Token):
@@ -165,9 +172,8 @@ def tokenize_assignment(s):
             return
         token, s = result
         tokens.append(token)
-    f_result = [tokens[0], tokens[2]]
-    f_result.extend(tokens[4])
-    return f_result
+    number = NumberToken(data=''.join(str(t.data) for t in tokens[4]))
+    return [tokens[0], tokens[2], number]
 
 
 def tokenize_line(s):

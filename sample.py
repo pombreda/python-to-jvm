@@ -1,2 +1,1 @@
-my_var = 0
-print(i)
+var = 1000
