@@ -3,8 +3,12 @@ from string import ascii_lowercase, ascii_uppercase
 TOKEN_DIGIT = 'digit'
 TOKEN_EQUALS = 'equals'
 TOKEN_IDENTIFIER = 'identifier'
+TOKEN_LOWERCASE = 'lowercase'
 TOKEN_NEWLINE = 'newline'
 TOKEN_NUMBER = 'number'
+TOKEN_UNDERSCORE = 'underscore'
+TOKEN_UPPERCASE = 'uppercase'
+TOKEN_WHITESPACE = 'whitespace'
 
 
 class Token(object):
@@ -14,59 +18,41 @@ class Token(object):
 
 
 class NewlineToken(Token):
-    def __init__(self, **kwargs):
-        self.token_type = TOKEN_NEWLINE
-        super(NewlineToken, self).__init__(**kwargs)
+    token_type = TOKEN_NEWLINE
 
 
 class DigitToken(Token):
-    def __init__(self, **kwargs):
-        self.token_type = TOKEN_DIGIT
-        super(DigitToken, self).__init__(**kwargs)
+    token_type = TOKEN_DIGIT
 
 
 class NumberToken(Token):
-    def __init__(self, **kwargs):
-        self.token_type = TOKEN_NUMBER
-        super(NumberToken, self).__init__(**kwargs)
+    token_type = TOKEN_NUMBER
 
 
 class LowercaseToken(Token):
-    def __init__(self, **kwargs):
-        self.token_type = 'lowercase'
-        super(LowercaseToken, self).__init__(**kwargs)
+    token_type = TOKEN_LOWERCASE
 
 
 class UppercaseToken(Token):
-    def __init__(self, **kwargs):
-        self.token_type = 'uppercase'
-        super(UppercaseToken, self).__init__(**kwargs)
+    token_type = TOKEN_UPPERCASE
 
 
 class UnderscoreToken(Token):
-    def __init__(self, **kwargs):
-        self.token_type = 'underscore'
-        super(UnderscoreToken, self).__init__(**kwargs)
+    token_type = TOKEN_UNDERSCORE
 
 
 class WhitespaceToken(Token):
-    def __init__(self, **kwargs):
-        self.token_type = 'whitespace'
-        super(WhitespaceToken, self).__init__(**kwargs)
+    token_type = TOKEN_WHITESPACE
 
 
 class EqualsToken(Token):
-    def __init__(self, **kwargs):
-        self.token_type = TOKEN_EQUALS
-        super(EqualsToken, self).__init__(**kwargs)
+    token_type = TOKEN_EQUALS
 
 
 class IdentifierToken(Token):
-    def __init__(self, **kwargs):
-        self.token_type = TOKEN_IDENTIFIER
-        super(IdentifierToken, self).__init__(**kwargs)
+    token_type = TOKEN_IDENTIFIER
 
-
+    
 CHAR_TOKEN_CLASSES = {
     '_': UnderscoreToken,
     ' ': WhitespaceToken,
