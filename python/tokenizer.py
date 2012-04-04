@@ -174,6 +174,19 @@ def tokenize_identifier(s):
     return (IdentifierToken(data=identifier_str), rest)
 
 
+def _tokenize_functions(s, functions):
+    tokens = []
+    for f in functions:
+        result = f(s)
+        if not result:
+            return
+        token, s = result
+        if type(token) == list:
+            tokens.extend(token)
+        else:
+            tokens.append(token)
+    return tokens
+
 def tokenize_assignment(s):
     functions = (
         lambda r: tokenize_identifier(r),
@@ -182,14 +195,11 @@ def tokenize_assignment(s):
         lambda r: tokenize_character(r, character=' '),
         lambda r: tokenize_digits(r),
     )
-    tokens = []
-    for f in functions:
-        result = f(s)
-        if not result:
-            return
-        token, s = result
-        tokens.append(token)
-    number = NumberToken(data=''.join(str(t.data) for t in tokens[4]))
+    tokens = _tokenize_functions(s, functions)
+    if not tokens:
+        return
+    digits = [t for t in tokens if t.token_type == TOKEN_DIGIT]
+    number = NumberToken(data=''.join(str(t.data) for t in digits))
     return [tokens[0], tokens[2], number]
 
 
@@ -204,16 +214,9 @@ def tokenize_if_statement(s):
         lambda r: tokenize_digits(r),
         lambda r: tokenize_character(r, character=':'),
     )
-    tokens = []
-    for f in functions:
-        result = f(s)
-        if not result:
-            return
-        token, s = result
-        if type(token) == list:
-            tokens.extend(token)
-        else:
-            tokens.append(token)
+    tokens = _tokenize_functions(s, functions)
+    if not tokens:
+        return
     data = (tokens[2], tokens[4], tokens[6])
     return IfStatementToken(data=data), s 
     
