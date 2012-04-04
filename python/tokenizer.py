@@ -140,15 +140,15 @@ def tokenize_letter(s):
 
 
 def tokenize_keyword(s, keyword):
-    result = tokenize_character(s, character='i')
-    if not result:
-        return
-    i, rest = result
-    result = tokenize_character(rest, character='f')
-    if not result:
-        return
-    f, rest = result
-    return KeywordToken(data='if'), rest
+    c_tokens = []
+    rest = s
+    for c in keyword:
+        result = tokenize_character(rest, character=c)
+        if not result:
+            return
+        cr, rest = result
+        c_tokens.append(cr)
+    return KeywordToken(data=''.join(t.data for t in c_tokens)), rest
 
 
 def tokenize_identifier(s):
