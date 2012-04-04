@@ -218,7 +218,7 @@ def tokenize_if_statement(s):
     if not tokens:
         return
     data = (tokens[2], tokens[4], tokens[6])
-    return IfStatementToken(data=data), s 
+    return [IfStatementToken(data=data)] 
     
 
 def tokenize_line(s):
@@ -236,5 +236,4 @@ def tokenize_python(lines):
     for line in cleaned_lines:
         tokens.extend(tokenize_line(line))
         tokens.append(NewlineToken())
-    print(tokens)
     return tokens
