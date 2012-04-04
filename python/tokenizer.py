@@ -1,8 +1,11 @@
 from string import ascii_lowercase, ascii_uppercase
 
+TOKEN_CHARACTER = 'character'
 TOKEN_DIGIT = 'digit'
 TOKEN_EQUALS = 'equals'
 TOKEN_IDENTIFIER = 'identifier'
+TOKEN_IF_STATEMENT = 'if'
+TOKEN_KEYWORD = 'keyword'
 TOKEN_LOWERCASE = 'lowercase'
 TOKEN_NEWLINE = 'newline'
 TOKEN_NUMBER = 'number'
@@ -53,6 +56,18 @@ class IdentifierToken(Token):
     token_type = TOKEN_IDENTIFIER
 
     
+class KeywordToken(Token):
+    token_type = TOKEN_KEYWORD
+
+
+class IfStatementToken(Token):
+    token_type = TOKEN_IF_STATEMENT
+
+
+class CharacterToken(Token):
+    token_type = TOKEN_CHARACTER
+
+
 CHAR_TOKEN_CLASSES = {
     '_': UnderscoreToken,
     ' ': WhitespaceToken,
@@ -84,9 +99,13 @@ def tokenize_uppercase(s):
 
 
 def tokenize_character(s, character):
+    try:
+        token_class = CHAR_TOKEN_CLASSES[character]
+    except KeyError:
+        token_class = CharacterToken
     return tokenize_one_char(s
         , lambda c: c == character
-        , lambda c: CHAR_TOKEN_CLASSES[c]
+        , lambda c: token_class
     )
 
 
@@ -118,6 +137,18 @@ def tokenize_letter(s):
         result = tokenize_uppercase(s)
     if result:
         return result
+
+
+def tokenize_keyword(s, keyword):
+    result = tokenize_character(s, character='i')
+    if not result:
+        return
+    i, rest = result
+    result = tokenize_character(rest, character='f')
+    if not result:
+        return
+    f, rest = result
+    return KeywordToken(data='if'), rest
 
 
 def tokenize_identifier(s):
@@ -162,8 +193,35 @@ def tokenize_assignment(s):
     return [tokens[0], tokens[2], number]
 
 
+def tokenize_if_statement(s):
+    functions = (
+        lambda r: tokenize_keyword(r, 'if'),
+        lambda r: tokenize_character(r, character=' '),
+        lambda r: tokenize_identifier(r),
+        lambda r: tokenize_character(r, character=' '),
+        lambda r: tokenize_character(r, character='>'),
+        lambda r: tokenize_character(r, character=' '),
+        lambda r: tokenize_digits(r),
+        lambda r: tokenize_character(r, character=':'),
+    )
+    tokens = []
+    for f in functions:
+        result = f(s)
+        if not result:
+            return
+        token, s = result
+        if type(token) == list:
+            tokens.extend(token)
+        else:
+            tokens.append(token)
+    data = (tokens[2], tokens[4], tokens[6])
+    return IfStatementToken(data=data), s 
+    
+
 def tokenize_line(s):
     result = tokenize_assignment(s)
+    if not result:
+        result = tokenize_if_statement(s)
     if not result:
         result = []
     return result
