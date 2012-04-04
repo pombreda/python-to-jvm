@@ -176,3 +176,41 @@ B200 0212 03B6 0004 B1 = code
 000D = attribute_name_index (13)
 0000 0002 = attribute_length (2)
 000E = sourcefile_index (14)
+
+----------------------------------------------------------
+
+
+// 05 11 03 E8 3C B1
+// iconst_2
+// sipush 03 E8
+// istore_1
+
+// 06 3C B1
+
+// 11 00 FA 3C B1
+// sipush 00 FA
+/// istore_1
+
+// int i = 0;
+// if (true) {
+//     i = 50;
+// }
+// 06 03 3C 10 32 3C B1
+// 03 iconst_0
+// 3C istore_1
+// 10 32 bipush (50)
+// 3C istore_1
+
+// int i = 0;
+// if (i > 3) {
+//     i = 50;
+// }
+// 0B 03 3C 1B 06 A4 00 06 10 32 3C B1
+// 03 iconst_0
+// 3C istore_1
+// 1B iload_1
+// 06 iconst_3
+// A4 if_icmple 00 06
+// 10 bipush (50)
+// 3C istore_1
+// B1 return
